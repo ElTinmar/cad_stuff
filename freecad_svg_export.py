@@ -14,7 +14,7 @@ def make_svg_hairline_red(filepath, elements=None):
     for tag in elements:
         # Replace existing style attribute
         pattern = rf'(<{tag}\b[^>]*?)\sstyle="[^"]*?"'
-        replacement = r'\1 style="stroke:#ff0000;stroke-width:0.02;stroke-dasharray:none;fill:none;fill-opacity:1;fill-rule:evenodd"'
+        replacement = r'\1 style="stroke:#ff0000;stroke-width:0.02;stroke-dasharray:none;fill:#ffffff;fill-opacity:1;fill-rule:evenodd"'
         content = re.sub(pattern, replacement, content, flags=re.IGNORECASE)
 
     with open(filepath, "w", encoding="utf-8") as f:
