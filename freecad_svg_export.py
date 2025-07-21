@@ -4,20 +4,22 @@ import os
 from datetime import datetime
 import re
 
-def make_svg_hairline_red(filepath):
+def make_svg_hairline_red(filepath, elements=None):
+    if elements is None:
+        elements = ['path', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'rect']
+
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # Replace existing style attribute in <path ...> tags
-    content = re.sub(
-        r'(<path\b[^>]*?)\sstyle="[^"]*?"',
-        r'\1 style="stroke:#ff0000;stroke-width:0.02;stroke-dasharray:none;fill:none;fill-opacity:1;fill-rule:evenodd"',
-        content,
-        flags=re.IGNORECASE
-    )
+    for tag in elements:
+        # Replace existing style attribute
+        pattern = rf'(<{tag}\b[^>]*?)\sstyle="[^"]*?"'
+        replacement = r'\1 style="stroke:#ff0000;stroke-width:0.02;stroke-dasharray:none;fill:none;fill-opacity:1;fill-rule:evenodd"'
+        content = re.sub(pattern, replacement, content, flags=re.IGNORECASE)
 
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
+
 
 
 # FreeCAD.ActiveDocument.getObjectsByLabel('AngleBracketLED')
